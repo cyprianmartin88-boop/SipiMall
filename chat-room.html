@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Room - SipiMall</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Meta Pixel Code -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .chat-bubble-user { background: #ff4d4d; color: white; border-radius: 18px 18px 4px 18px; }
+        .chat-bubble-admin { background: #f1f5f9; color: #1e293b; border-radius: 18px 18px 18px 4px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+        <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -22,12 +28,6 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=2053674401981503&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .chat-bubble-user { background: #ff4d4d; color: white; border-radius: 18px 18px 4px 18px; }
-        .chat-bubble-admin { background: #f1f5f9; color: #1e293b; border-radius: 18px 18px 18px 4px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-    </style>
 </head>
 <body class="max-w-md mx-auto h-screen flex flex-col bg-white">
 

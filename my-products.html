@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bidhaa Zangu - Sipimall</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Meta Pixel Code -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .product-card { transition: all 0.3s ease; }
+        .product-card:active { transform: scale(0.98); }
+        .main-red { color: #ff4d4d; }
+        .bg-main-red { background-color: #ff4d4d; }
+        .glow-button { box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
+        @keyframes pop {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop { animation: pop 0.3s ease forwards; }
+    </style>
+        <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -22,19 +35,6 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=2053674401981503&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
-        .product-card { transition: all 0.3s ease; }
-        .product-card:active { transform: scale(0.98); }
-        .main-red { color: #ff4d4d; }
-        .bg-main-red { background-color: #ff4d4d; }
-        .glow-button { box-shadow: 0 0 15px rgba(255, 77, 77, 0.4); }
-        @keyframes pop {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-pop { animation: pop 0.3s ease forwards; }
-    </style>
 </head>
 <body class="max-w-md mx-auto min-h-screen pb-32">
 
