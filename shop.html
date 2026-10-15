@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Duka</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fafafa; }
+    </style>
+</head>
+<body class="max-w-md mx-auto p-4 min-h-screen text-gray-900">
+
+<!-- 1. NAVBAR -->
+<nav class="flex items-center justify-between py-2 mb-6">
+    <div class="flex items-center gap-2.5">
+        <a href="shop-list.html" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center active:scale-95 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+        </a>
+        <div id="shopLogoBadge" class="w-10 h-10 bg-purple-600 text-white font-black text-sm rounded-2xl flex items-center justify-center shadow-md shadow-purple-200">
+            S
+        </div>
+        <span id="navShopName" class="font-extrabold text-sm tracking-tight text-gray-900">Inapakia...</span>
+    </div>
+
+    <!-- Kitufe cha Cart -->
+    <div id="visitorNavControls" class="flex items-center gap-2">
+        <button class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.25 10.5a.75.75 0 100-1.5.75.75 0 000 1.5zm7.5 0a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<!-- 2. BANNER YA OWNER -->
+<div id="ownerHeaderAction" class="hidden mb-6 bg-purple-50 border border-purple-200 p-4 rounded-2xl flex items-center justify-between">
+    <div>
+        <p class="text-xs font-bold text-purple-900">Umeingia kama Mwenye Duka 🔑</p>
+        <p class="text-[11px] text-purple-600">Unaweza kuongeza na kuedit bidhaa zako.</p>
+    </div>
+    <a id="addProductBtn" href="#" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all">
+        + Pakia Bidhaa
+    </a>
+</div>
+
+<!-- 3. HERO TITLE -->
+<div class="mb-6">
+    <h1 class="text-3xl font-black leading-tight tracking-tight text-gray-900 mb-2">
+        Karibu <br>
+        <span id="heroShopName" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500">
+            Inapakia...
+        </span> <br>
+        Duka
+    </h1>
+    <p id="shopDescription" class="text-xs text-gray-500 font-medium leading-relaxed">
+        Bidhaa Bora kwa Bei Poa.
+    </p>
+</div>
+
+<!-- 4. TAKWIMU BADGES -->
+<div class="grid grid-cols-3 gap-2 mb-6 text-center text-xs font-extrabold text-stone-700">
+    <div class="bg-stone-100 p-2.5 rounded-2xl border border-stone-200/60">
+        📦 Bidhaa <br>
+        <span id="statProducts" class="text-purple-600 font-black">0</span>
+    </div>
+    <div class="bg-stone-100 p-2.5 rounded-2xl border border-stone-200/60">
+        👥 Wateja <br>
+        <span id="statCustomers" class="text-purple-600 font-black">0+</span>
+    </div>
+    <div class="bg-stone-100 p-2.5 rounded-2xl border border-stone-200/60">
+        🚚 Delivery <br>
+        <span id="statDelivery" class="text-emerald-600 font-black">Ipo</span>
+    </div>
+</div>
+
+<!-- 5. ACTION BUTTONS -->
+<div id="contactButtons" class="grid grid-cols-3 gap-2.5 mb-4">
+    <a href="#" id="callBtn" class="bg-emerald-600 text-white py-3 px-2 rounded-2xl font-extrabold text-xs flex flex-col items-center justify-center gap-1 shadow-sm">
+        <span>Piga Simu</span>
+    </a>
+    <a href="#" id="whatsappBtn" target="_blank" class="bg-green-500 text-white py-3 px-2 rounded-2xl font-extrabold text-xs flex flex-col items-center justify-center gap-1 shadow-sm">
+        <span>WhatsApp</span>
+    </a>
+    <a href="#" id="instagramBtn" target="_blank" class="bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white py-3 px-2 rounded-2xl font-extrabold text-xs flex flex-col items-center justify-center gap-1 shadow-sm">
+        <span>Instagram</span>
+    </a>
+</div>
+
+<!-- 6. BANNER YA OFFER -->
+<div id="offerBanner" class="mb-6 p-3 rounded-2xl bg-gray-100 border border-gray-200 text-gray-400 text-xs font-medium text-center transition-all">
+    <span id="offerText">Hakuna offer kwa sasa</span>
+</div>
+
+<!-- 7. SEARCH BAR -->
+<div class="mb-6">
+    <input type="text" id="productSearchInput" placeholder="Tafuta bidhaa..." 
+        class="w-full bg-stone-100 border border-stone-200 rounded-full px-5 py-3 text-xs font-semibold focus:outline-none focus:bg-white transition-all">
+</div>
+
+<!-- 8. PRODUCT GRID -->
+<div id="productsSection" class="mb-10">
+    <div id="productsGrid" class="grid grid-cols-2 gap-3.5">
+        <p class="col-span-2 text-center text-xs text-gray-400 py-8">Inapakia bidhaa...</p>
+    </div>
+</div>
+
+<!-- FIREBASE INTEGRATION SCRIPT -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { 
+        getFirestore, collection, query, where, getDocs, doc, getDoc 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+        authDomain: "sipimall.firebaseapp.com",
+        projectId: "sipimall",
+        storageBucket: "sipimall.firebasestorage.app",
+        messagingSenderId: "949511907728",
+        appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let isOwner = false;
+    let allProducts = [];
+    let currentActiveShopId = null;
+
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user;
+        await checkPermissionsAndLoad();
+    });
+
+    async function checkPermissionsAndLoad() {
+        isOwner = false;
+
+        const params = new URLSearchParams(window.location.search);
+        let currentShopId = params.get('shopId') || params.get('id');
+
+        if (!currentShopId || currentShopId === "undefined" || currentShopId === "null") {
+            currentShopId = null;
+        }
+
+        try {
+            let shopData = null;
+            let finalShopId = currentShopId;
+
+            // 1. Kama URL haina ID, lakini Owner ameingia
+            if (!finalShopId && currentUser) {
+                const q = query(
+                    collection(db, "shops"), 
+                    where("ownerEmail", "==", currentUser.email)
+                );
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const shopDoc = querySnapshot.docs[0];
+                    finalShopId = shopDoc.id;
+                    shopData = shopDoc.data();
+                    isOwner = true;
+                }
+            } 
+            // 2. Kama URL ina ID
+            else if (finalShopId) {
+                const shopRef = doc(db, "shops", finalShopId);
+                const shopSnap = await getDoc(shopRef);
+
+                if (shopSnap.exists()) {
+                    shopData = shopSnap.data();
+                    
+                    if (currentUser) {
+                        const isEmailMatch = currentUser.email && shopData.ownerEmail && 
+                                             (currentUser.email.toLowerCase() === shopData.ownerEmail.toLowerCase());
+                        const isIdMatch = currentUser.uid === shopData.ownerId;
+
+                        if (isEmailMatch || isIdMatch) {
+                            isOwner = true;
+                        }
+                    }
+                }
+            }
+
+            currentActiveShopId = finalShopId;
+
+            // 3. Onyesha taarifa kama duka limepatikana
+            if (shopData && finalShopId) {
+                setupUI(shopData, finalShopId);
+                await loadShopProducts(finalShopId, shopData.ownerId);
+            } else {
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="col-span-2 text-center py-10 px-4">
+                        <p class="text-xs font-bold text-red-500 mb-2">Duka halijapatikana kwenye mfumo.</p>
+                    </div>
+                `;
+            }
+
+        } catch (e) {
+            console.error("Makosa ya kupakia duka:", e);
+        }
+    }
+
+    function setupUI(shop, shopId) {
+        const jinaLaDuka = shop.shopName || shop.name || "Duka";
+
+        document.getElementById('navShopName').innerText = jinaLaDuka;
+        document.getElementById('heroShopName').innerText = jinaLaDuka;
+        document.getElementById('shopLogoBadge').innerText = jinaLaDuka[0].toUpperCase();
+        
+        if (shop.description) {
+            document.getElementById('shopDescription').innerText = shop.description;
+        }
+
+        document.getElementById('statCustomers').innerText = shop.customersCount ? `${shop.customersCount}+` : "50+";
+        document.getElementById('statDelivery').innerText = shop.deliveryStatus || "Ipo";
+
+        const offerContainer = document.getElementById('offerBanner');
+        const offerTextEl = document.getElementById('offerText');
+
+        if (shop.offerText && shop.offerText.trim() !== "") {
+            offerContainer.className = "mb-6 p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold flex items-center justify-center gap-2 shadow-sm";
+            offerTextEl.innerText = `🎉 OFFER: ${shop.offerText}`;
+        } else {
+            offerContainer.className = "mb-6 p-3 rounded-2xl bg-gray-100 border border-gray-200 text-gray-400 text-xs font-medium text-center";
+            offerTextEl.innerText = "Hakuna offer kwa sasa";
+        }
+
+        if (isOwner) {
+            document.getElementById('ownerHeaderAction').classList.remove('hidden');
+            document.getElementById('addProductBtn').href = `pakia.html?shopId=${shopId}`;
+            document.getElementById('contactButtons').classList.add('hidden');
+        } else {
+            document.getElementById('ownerHeaderAction').classList.add('hidden');
+            document.getElementById('contactButtons').classList.remove('hidden');
+            
+            const phone = shop.phone || "255700000000";
+            document.getElementById('callBtn').href = `tel:${phone}`;
+            document.getElementById('whatsappBtn').href = `https://wa.me/${phone.replace('+','')}`;
+            document.getElementById('instagramBtn').href = shop.instagram ? `https://instagram.com/${shop.instagram}` : '#';
+        }
+    }
+
+    async function loadShopProducts(shopId, ownerId) {
+        const grid = document.getElementById('productsGrid');
+        try {
+            // Tafuta bidhaa kupitia shopId
+            let q = query(collection(db, "products"), where("shopId", "==", shopId));
+            let querySnapshot = await getDocs(q);
+
+            // Kama hazijapatikana na kuna ownerId, jaribu kutafuta kwa userId
+            if (querySnapshot.empty && ownerId) {
+                q = query(collection(db, "products"), where("userId", "==", ownerId));
+                querySnapshot = await getDocs(q);
+            }
+
+            grid.innerHTML = "";
+            allProducts = [];
+
+            document.getElementById('statProducts').innerText = querySnapshot.size;
+
+            if (querySnapshot.empty) {
+                if (isOwner) {
+                    grid.innerHTML = `
+                        <div class="col-span-2 text-center py-10 px-4">
+                            <p class="text-xs font-bold text-stone-600 mb-2">Hujaweka bidhaa bado 📦</p>
+                            <a href="pakia.html?shopId=${shopId}" class="inline-block bg-purple-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:bg-purple-700 transition-colors">
+                                Pakia Bidhaa
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    grid.innerHTML = `
+                        <div class="col-span-2 text-center py-10 px-4">
+                            <p class="text-xs font-semibold text-stone-400">Hajaweka bidhaa kwa sasa.</p>
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            querySnapshot.forEach((docSnap) => {
+                const product = { id: docSnap.id, ...docSnap.data() };
+                allProducts.push(product);
+                renderProductCard(product);
+            });
+
+        } catch (e) {
+            console.error("Makosa ya kupakua bidhaa:", e);
+            grid.innerHTML = `<p class="col-span-2 text-center text-xs text-red-400 py-8">Imeshindikana kupakua bidhaa.</p>`;
+        }
+    }
+
+function renderProductCard(product) {
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+    
+    // Pata ID sahihi ya bidhaa
+    const productId = product.id || product.docId;
+
+    // Pata njia sahihi ya picha bila kujali jina lililotumika kuisave
+    const imgUrl = product.imageUrl || product.image || (product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/300');
+    const price = Number(product.price || 0).toLocaleString();
+    const oldPrice = product.oldPrice ? Number(product.oldPrice).toLocaleString() : null;
+
+    // Vitufe vya Muuzaji (Delete & Edit) - vimeongezewa event.stopPropagation()
+    const ownerOverlayButtons = isOwner ? `
+        <div class="absolute top-2 right-2 flex flex-col gap-1.5 z-20">
+            <button onclick="event.stopPropagation(); deleteProduct('${productId}')" class="w-7 h-7 bg-white/90 hover:bg-white text-red-500 rounded-full flex items-center justify-center shadow text-xs active:scale-90 transition-transform">
+                🗑️
+            </button>
+            <a href="edit-product.html?id=${productId}" onclick="event.stopPropagation()" class="w-7 h-7 bg-white/90 hover:bg-white text-blue-500 rounded-full flex items-center justify-center shadow text-xs active:scale-90 transition-transform">
+                ✏️
+            </a>
+        </div>
+    ` : '';
+
+    // Kitufe cha Boost - kimeongezewa event.stopPropagation()
+    const boostButton = isOwner ? `
+        <div class="flex justify-end mt-2">
+            <button onclick="event.stopPropagation(); boostProduct('${productId}')" class="bg-rose-50 text-rose-500 text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-rose-100 active:scale-95 transition-all">
+                ⚡ BOOST
+            </button>
+        </div>
+    ` : '';
+
+    // Card ya Bidhaa inayoelekeza kwenye product-detail.html?id=...
+    const card = `
+        <div onclick="window.location.href='product-detail.html?id=${productId}'" 
+             class="bg-white rounded-3xl p-3 shadow-sm border border-gray-100 relative flex flex-col justify-between cursor-pointer hover:shadow-md transition-shadow">
+            
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-gray-50 mb-2">
+                ${ownerOverlayButtons}
+                <img src="${imgUrl}" alt="${product.name}" class="w-full h-full object-cover">
+            </div>
+
+            <div>
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">
+                    ${product.category || 'FASHION'}
+                </span>
+                <h3 class="text-xs font-bold text-gray-800 line-clamp-2 my-1">
+                    ${product.name}
+                </h3>
+                
+                <div class="mt-1">
+                    ${oldPrice ? `<p class="text-[10px] text-gray-400 line-through">TSh ${oldPrice}</p>` : ''}
+                    <p class="text-sm font-black text-rose-500">TSh ${price}</p>
+                </div>
+
+                ${boostButton}
+            </div>
+        </div>
+    `;
+
+    grid.insertAdjacentHTML('beforeend', card);
+}
+    document.getElementById('productSearchInput').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = "";
+        
+        const filtered = allProducts.filter(p => p.name && p.name.toLowerCase().includes(term));
+        filtered.forEach(p => renderProductCard(p));
+    });
+</script>
+
+</body>
+</html>

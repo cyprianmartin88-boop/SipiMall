@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room - SipiMall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .chat-bubble-user { background: #ff4d4d; color: white; border-radius: 18px 18px 4px 18px; }
+        .chat-bubble-admin { background: #f1f5f9; color: #1e293b; border-radius: 18px 18px 18px 4px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="max-w-md mx-auto h-screen flex flex-col bg-white">
+
+    <div class="p-4 border-b flex items-center gap-3 sticky top-0 bg-white z-10">
+        <button onclick="location.href='chat-list.html'" class="p-2 bg-gray-100 rounded-xl">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="flex items-center gap-3">
+            <img id="header-img" src="https://ui-avatars.com/api/?name=Sipi" class="w-10 h-10 rounded-full object-cover">
+            <div>
+                <h4 id="header-name" class="font-black text-gray-800 text-sm">Inapakia...</h4>
+                <p id="header-product" class="text-[10px] text-[#ff4d4d] font-bold uppercase"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-box" class="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar"></div>
+
+    <div class="p-4 border-t bg-white">
+        <div class="relative flex items-center">
+            <input type="text" id="chat-input" placeholder="Andika ujumbe..." class="w-full bg-gray-50 border-none rounded-[22px] py-4 px-6 text-sm focus:ring-2 focus:ring-[#ff4d4d]/20 transition-all pr-14">
+            <button id="send-btn" class="absolute right-2 bg-[#ff4d4d] p-3 rounded-full text-white shadow-lg active:scale-95 transition-all">
+                <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, collection, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+            authDomain: "sipimall.firebaseapp.com",
+            projectId: "sipimall",
+            storageBucket: "sipimall.firebasestorage.app",
+            messagingSenderId: "949511907728",
+            appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        const params = new URLSearchParams(window.location.search);
+        const chatId = params.get('chatId') || params.get('id');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadChatRoom();
+            } else {
+                location.href = "login.html";
+            }
+        });
+
+        async function loadChatRoom() {
+            if (!chatId) {
+                console.error("Hakuna chatId iliyopatikana kwenye URL!");
+                return;
+            }
+
+            // 1. Pata taarifa za Header
+            try {
+                const chatRef = doc(db, "conversations", chatId);
+                const chatSnap = await getDoc(chatRef);
+                
+                if (chatSnap.exists()) {
+                    const data = chatSnap.data();
+                    const otherId = (data.participants || []).find(id => id !== currentUser.uid);
+                    const otherUser = data.usersData?.[otherId] || {};
+                    
+                    document.getElementById('header-name').innerText = otherUser.name || "Mtumiaji";
+                    document.getElementById('header-img').src = otherUser.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(otherUser.name || 'User')}`;
+                    document.getElementById('header-product').innerText = data.productInfo?.name || "";
+                }
+            } catch (err) {
+                console.error("Error loading chat header:", err);
+            }
+
+            // 2. Sikiliza Meseji Live
+            const q = query(collection(db, "conversations", chatId, "messages"), orderBy("timestamp", "asc"));
+            onSnapshot(q, (snapshot) => {
+                const chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML = "";
+                snapshot.forEach(doc => {
+                    const msg = doc.data();
+                    const isMe = msg.senderId === currentUser.uid;
+                    chatBox.insertAdjacentHTML('beforeend', `
+                        <div class="flex ${isMe ? 'justify-end' : 'justify-start'}">
+                            <div class="${isMe ? 'chat-bubble-user' : 'chat-bubble-admin'} px-4 py-3 text-[13px] shadow-sm max-w-[80%] break-words">
+                                ${msg.text}
+                            </div>
+                        </div>
+                    `);
+                });
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+        }
+
+        // FUNCTION YA KUTUMA MESEJI
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text || !currentUser || !chatId) return;
+
+            input.value = ""; // Safisha kisanduku
+            
+            try {
+                // Hifadhi Meseji kwenye sub-collection ya messages
+                await addDoc(collection(db, "conversations", chatId, "messages"), {
+                    text: text,
+                    senderId: currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                // Sasisha conversation kuu
+                await setDoc(doc(db, "conversations", chatId), {
+                    lastMessage: text,
+                    timestamp: serverTimestamp(),
+                    lastSenderId: currentUser.uid
+                }, { merge: true });
+
+            } catch (e) { 
+                console.error("Kosa la kutuma meseji:", e); 
+            }
+        }
+
+        // WEKA EVENT LISTENERS MOJA KWA MOJA (TAYARI KWA MOODLE)
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

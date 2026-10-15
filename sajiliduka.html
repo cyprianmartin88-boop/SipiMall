@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sajili Duka Lako - SokoMaduka</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="max-w-md mx-auto p-4 min-h-screen flex flex-col justify-between relative">
+
+    <!-- TOP BAR: BACK BUTTON -->
+    <div class="mb-4">
+        <button onclick="history.back()" class="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center text-gray-700 shadow-sm active:scale-95 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- MAIN HERO CARD -->
+    <div class="bg-gradient-to-b from-[#3b124d] via-[#1e1735] to-[#0f283d] rounded-[36px] p-6 text-white shadow-xl border border-purple-900/30">
+        
+        <!-- Top Badge -->
+        <div class="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-gray-200 text-[10px] font-bold px-3 py-1.5 rounded-full tracking-wider uppercase mb-5">
+            KWA WAFANYABIASHARA WA MWANZA
+        </div>
+
+        <!-- Main Title & Subtitle -->
+        <h1 class="text-3xl font-black text-white leading-tight mb-3">
+            Una Duka?<br>Jisajili Bure Leo
+        </h1>
+        <p class="text-xs text-gray-300 font-normal leading-relaxed mb-6">
+            Fungua duka lako mtandaoni ndani ya dakika 5. Pata wateja wapya, pokea oda, na kuza mauzo bila gharama za mwanzo.
+        </p>
+
+        <!-- Action Buttons Row -->
+        <div class="flex items-center gap-3 mb-6">
+            <button onclick="openFormModal()" class="bg-white text-gray-900 font-extrabold text-xs px-5 py-3.5 rounded-full flex items-center gap-1.5 shadow-md active:scale-95 transition-transform">
+                Anza Bure <span>↗</span>
+            </button>
+            <button class="bg-white/10 border border-white/15 text-white font-semibold text-xs px-5 py-3.5 rounded-full hover:bg-white/20 active:scale-95 transition-transform">
+                Jifunze zaidi
+            </button>
+        </div>
+
+        <!-- Checkmarks List -->
+        <div class="flex items-center gap-4 text-xs text-gray-300 font-medium mb-8">
+            <div class="flex items-center gap-1.5">
+                <span class="w-4 h-4 bg-white/10 rounded-full flex items-center justify-center text-[10px] text-emerald-400 font-bold">✓</span>
+                <span>Bila ada ya usajili</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="w-4 h-4 bg-white/10 rounded-full flex items-center justify-center text-[10px] text-emerald-400 font-bold">✓</span>
+                <span>Malipo ya simu</span>
+            </div>
+        </div>
+
+        <!-- LIVE PREVIEW CONTAINER CARD -->
+        <div class="bg-white/5 border border-white/10 rounded-[28px] p-4 backdrop-blur-md">
+            <div class="flex items-center justify-between mb-3 px-1">
+                <span class="text-xs font-semibold text-gray-300">Mfano wa duka lako</span>
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                    LIVE
+                </span>
+            </div>
+
+            <!-- Inner White Card -->
+            <div class="bg-white text-gray-900 rounded-[22px] p-4 shadow-lg">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-11 h-11 bg-black text-white font-extrabold text-lg rounded-xl flex items-center justify-center">
+                        D
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-sm text-gray-900 leading-tight">Duka Lako Jipya</h3>
+                        <p class="text-[11px] font-medium text-gray-500 mt-0.5 flex items-center gap-1">
+                            📍 Mwanza • Imefunguliwa
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2.5 mb-4">
+                    <div class="bg-gray-100 rounded-xl h-16 flex items-center justify-center text-xl">👕</div>
+                    <div class="bg-gray-100 rounded-xl h-16 flex items-center justify-center text-xl">📱</div>
+                    <div class="bg-gray-100 rounded-xl h-16 flex items-center justify-center text-xl">👟</div>
+                </div>
+
+                <button class="w-full bg-[#18181b] text-white py-3 rounded-xl font-extrabold text-xs">
+                    Tazama duka
+                </button>
+            </div>
+
+            <p class="text-center text-[11px] text-gray-400 font-medium mt-3.5">
+                Zaidi ya maduka 180 yamejiunga mwezi huu
+            </p>
+        </div>
+
+    </div>
+
+    <!-- REGISTRATION MODAL FORM -->
+    <div id="registerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center hidden p-0 sm:p-4">
+        
+        <div class="bg-white w-full max-w-md rounded-t-[32px] sm:rounded-[32px] p-6 max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom duration-300">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b pb-3 mb-5">
+                <div>
+                    <h2 class="text-lg font-black text-gray-900">Sajili Duka Lako 🏪</h2>
+                    <p class="text-xs text-gray-500 font-medium">Jaza taarifa zako ili uanze kuuza</p>
+                </div>
+                <button onclick="closeFormModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 font-bold text-sm">
+                    ✕
+                </button>
+            </div>
+
+            <!-- FORM START -->
+            <form id="shopRegisterForm" onsubmit="handleRegister(event)" class="space-y-4">
+
+                <!-- 1. CATEGORY SELECTION -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1.5">1. Chagua Kategoria ya Duka</label>
+                    <select id="shopCategory" required class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-semibold text-gray-800 focus:outline-none focus:border-black">
+                        <option value="" disabled selected>Chagua kategoria...</option>
+                        <option value="mobile">📱 Simu & Vifaa (Mobile)</option>
+                        <option value="fashion">👕 Mitindo & Nguo (Fashion)</option>
+                        <option value="vehicle">🚗 Magari & Pikipiki (Vehicle)</option>
+                        <option value="electronics">🔌 Vifaa vya Umeme (Electronics)</option>
+                    </select>
+                </div>
+
+                <!-- 2. BRAND / SHOP NAME -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1.5">2. Jina la Duka (Brand Name)</label>
+                    <input type="text" id="shopName" required placeholder="Mfano: CypShere Mobile" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-medium text-gray-800 focus:outline-none focus:border-black placeholder:text-gray-400">
+                </div>
+
+                <!-- 3. LOCATION -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1.5">3. Eneo / Mtaa Duka Lilipo</label>
+                    <input type="text" id="shopLocation" required placeholder="Mfano: Buhongwa, Mwanza" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-medium text-gray-800 focus:outline-none focus:border-black placeholder:text-gray-400">
+                </div>
+
+                <!-- 4. OPERATING HOURS -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Muda wa Kufungua</label>
+                        <input type="time" id="openTime" required value="08:00" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-3 py-2.5 text-xs font-semibold text-gray-800 focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Muda wa Kufunga</label>
+                        <input type="time" id="closeTime" required value="20:00" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-3 py-2.5 text-xs font-semibold text-gray-800 focus:outline-none focus:border-black">
+                    </div>
+                </div>
+
+                <!-- 5. UPLOAD 3 PRODUCT IMAGES WITH PREVIEW -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1.5">5. Weka Picha 3 za Bidhaa Unazouza</label>
+                    <p class="text-[10px] text-gray-400 mb-2">Picha hizi zitaonekana kama hakiki (preview) kwenye kadi ya duka lako.</p>
+                    
+                    <input type="file" id="productImages" accept="image/*" multiple onchange="previewImages(event)" class="hidden">
+                    
+                    <!-- Upload Area / Dropzone -->
+                    <div onclick="document.getElementById('productImages').click()" class="border-2 border-dashed border-gray-200 rounded-2xl p-4 text-center cursor-pointer hover:bg-gray-50 transition-colors">
+                        <div class="text-gray-400 text-xl mb-1">📸</div>
+                        <span class="text-xs font-bold text-gray-700 block">Gusa hapa kupakia picha 3</span>
+                        <span class="text-[10px] text-gray-400">PNG au JPG (Upeo wa picha 3)</span>
+                    </div>
+
+                    <!-- Image Preview Grid -->
+                    <div id="imagePreviewContainer" class="grid grid-cols-3 gap-2 mt-3 hidden">
+                        <!-- Preview Images will be injected here via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" class="w-full bg-black text-white py-3.5 rounded-2xl font-extrabold text-xs shadow-lg active:scale-95 transition-transform mt-2">
+                    Kamilisha Usajili wa Duka ✨
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <footer class="text-center py-6 text-[11px] text-gray-500 font-medium leading-relaxed">
+        © 2026 SokoMaduka • Imetengenezwa kwa upendo Mwanza • Lugha: Kiswahili
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC (Firebase + UI) -->
+<script type="module">
+  // 1. Ingiza Huduma za Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // 2. Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+    authDomain: "sipimall.firebaseapp.com",
+    projectId: "sipimall",
+    storageBucket: "sipimall.firebasestorage.app",
+    messagingSenderId: "949511907728",
+    appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+  };
+
+  // 3. Anzisha Firebase Services
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  // Kutunza taarifa za mtumiaji aliyepo sasa
+  let currentUser = null;
+
+  // 4. Fuatilia Hali ya Mtumiaji (Auth Tracker)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      console.log("Mtumiaji yupo ndani:", user.displayName);
+    } else {
+      currentUser = null;
+      console.log("Mtumiaji hajaingia (Guest)");
+    }
+  });
+
+  // 5. Mfumo wa Kufungua Modal kwa Usalama 🔐
+  window.openFormModal = async () => {
+    if (!currentUser) {
+      const confirmLogin = confirm("Unatakiwa kuingia (Sign In) kwanza ili uweze kusajili duka. Ungependa kuingia sasa?");
+      if (confirmLogin) {
+        try {
+          const result = await signInWithPopup(auth, provider);
+          currentUser = result.user;
+          document.getElementById('registerModal').classList.remove('hidden');
+        } catch (error) {
+          alert("Kosa wakati wa kuingia: " + error.message);
+        }
+      }
+    } else {
+      document.getElementById('registerModal').classList.remove('hidden');
+    }
+  };
+
+  window.closeFormModal = () => {
+    document.getElementById('registerModal').classList.add('hidden');
+  };
+
+  // 6. Hakiki ya Picha (Image Preview Handler) 🖼️
+  window.previewImages = (event) => {
+    const container = document.getElementById('imagePreviewContainer');
+    container.innerHTML = '';
+    const files = Array.from(event.target.files).slice(0, 3); // Mwisho picha 3
+
+    if (files.length > 0) {
+      container.classList.remove('hidden');
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imgDiv = document.createElement('div');
+          imgDiv.className = 'h-16 rounded-xl overflow-hidden border border-gray-200 bg-gray-100 shadow-sm';
+          imgDiv.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+          container.appendChild(imgDiv);
+        };
+        reader.readAsDataURL(file);
+      });
+    } else {
+      container.classList.add('hidden');
+    }
+  };
+
+  // 7. Kuhifadhi Duka Firestore 💾
+  window.handleRegister = async (event) => {
+    event.preventDefault();
+
+    if (!currentUser) {
+      alert("Haujaingia! Tafadhali ingia kwanza.");
+      return;
+    }
+
+    try {
+      const category = document.getElementById('shopCategory').value;
+      const name = document.getElementById('shopName').value;
+      const location = document.getElementById('shopLocation').value;
+      const openTime = document.getElementById('openTime').value;
+      const closeTime = document.getElementById('closeTime').value;
+
+      await addDoc(collection(db, "shops"), {
+        ownerId: currentUser.uid,
+        ownerEmail: currentUser.email,
+        ownerName: currentUser.displayName,
+        shopName: name,
+        category: category,
+        location: location,
+        openTime: openTime,
+        closeTime: closeTime,
+        createdAt: serverTimestamp()
+      });
+
+      alert("Hongera! Duka lako limesajiliwa kikamilifu kwenye database 🎉");
+      closeFormModal();
+      document.getElementById('shopRegisterForm').reset();
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+
+    } catch (error) {
+      console.error("Kosa la kuhifadhi duka:", error);
+      alert("Imeshindikana kuhifadhi duka: " + error.message);
+    }
+  };
+  // Function inayopokea file la picha na kurudisha Base64 ndogo iliyocompress-wa
+function compressImage(file, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Kupunguza vipimo kama picha ni kubwa mno
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('canvas');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Kubadilisha kuwa Base64 iliyopunguzwa ukubwa (JPEG format)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+                resolve(compressedBase64);
+            };
+
+            img.onerror = (error) => reject(error);
+        };
+
+        reader.onerror = (error) => reject(error);
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidhaa (Glassmorphism) - Shopping App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f6f8fa; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .product-card { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Glassmorphism Active State kwa Categories */
+        .category-item.active .category-circle {
+            border-color: rgba(255, 77, 77, 0.5);
+            background-color: rgba(255, 77, 77, 0.15);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.1);
+        }
+        .category-item.active span { color: #ff4d4d; font-weight: 700; }
+    </style>
+</head>
+<body class="max-w-md mx-auto min-h-screen pb-32">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 px-5 pt-4 pb-3 border-b border-gray-100/50 shadow-sm">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <button onclick="window.location.href='index.html'" class="p-1 active:scale-90 transition-transform">
+                    <svg class="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <h1 id="page-title" class="text-xl font-bold text-gray-800">Bidhaa Zote</h1>
+            </div>
+            <button class="bg-red-50 text-[#ff4d4d] p-2 rounded-xl">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </button>
+        </div>
+        
+        <div class="relative">
+            <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </span>
+            <input type="text" placeholder="Tafuta bidhaa hapa..." class="w-full bg-gray-100/70 backdrop-blur-sm py-3 pl-11 pr-4 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#ff4d4d]/20 transition-all border border-gray-100">
+        </div>
+    </header>
+
+  <div id="categories-list" class="w-full bg-white/50 py-5 px-5 border-b border-gray-100/50 overflow-x-auto no-scrollbar flex items-start gap-5">
+    
+    <div onclick="window.loadProductsByCat('all', this)" class="category-btn category-item active flex flex-col items-center flex-shrink-0 cursor-pointer" data-category="zote">
+        <div class="category-circle w-16 h-16 rounded-full border border-gray-100 flex items-center justify-center bg-gray-50/50 transition-all">
+            <svg class="h-7 w-7 text-[#ff4d4d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7" stroke-width="2"/></svg>
+        </div>
+        <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase tracking-tight">Zote</span>
+    </div>
+
+    <div onclick="window.loadProductsByCat('mobile', this)" class="category-btn category-item flex flex-col items-center flex-shrink-0 cursor-pointer" data-category="mobile">
+        <div class="category-circle w-16 h-16 rounded-full border border-gray-100 overflow-hidden bg-white transition-all">
+            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200" class="w-full h-full object-cover">
+        </div>
+        <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase tracking-tight">Mobile</span>
+    </div>
+
+    <div onclick="window.loadProductsByCat('fashion', this)" class="category-btn category-item flex flex-col items-center flex-shrink-0 cursor-pointer" data-category="fashion">
+        <div class="category-circle w-16 h-16 rounded-full border border-gray-100 overflow-hidden bg-white transition-all">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=200" class="w-full h-full object-cover">
+        </div>
+        <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase tracking-tight">Fashion</span>
+    </div>
+
+    <div onclick="window.loadProductsByCat('vehicle', this)" class="category-btn category-item flex flex-col items-center flex-shrink-0 cursor-pointer" data-category="vehicle">
+        <div class="category-circle w-16 h-16 rounded-full border border-gray-100 overflow-hidden bg-white transition-all">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=200" class="w-full h-full object-cover">
+        </div>
+        <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase tracking-tight">Vehicle</span>
+    </div>
+</div>
+
+    <div class="px-5 mt-6 relative z-10">
+        <div id="product-grid" class="grid grid-cols-2 gap-4">
+            </div>
+    </div>
+
+    <div class="fixed bottom-5 left-0 right-0 px-6 z-50 max-w-md mx-auto pointer-events-none">
+        <nav class="bg-white/40 backdrop-blur-2xl border border-white/40 px-2 py-2.5 flex justify-around items-center rounded-full shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] pointer-events-auto">
+            <div onclick="window.location.href='index.html'" class="flex flex-col items-center text-gray-400 min-w-[55px] cursor-pointer">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span class="text-[9px] font-bold mt-1">Home</span>
+            </div>
+            <div onclick="window.location.href='bidhaa.html'"  class="flex flex-col items-center text-[#ff4d4d] min-w-[55px] cursor-pointer">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                <span class="text-[9px] font-bold mt-1">Bidhaa</span>
+            </div>
+           <div class="relative -top-6 mx-1">
+    <div onclick="window.location.href='duka.html'" class="bg-[#ff4d4d] p-3.5 rounded-full shadow-lg border-4 border-white cursor-pointer active:scale-90 transition-transform">
+        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4">
+            <path d="M12 4v16m8-8H4" />
+        </svg>
+    </div>
+</div>
+            <div  onclick="window.location.href='shop-list.html'" class="flex flex-col items-center text-gray-400 min-w-[55px] cursor-pointer">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                <span class="text-[9px] font-bold mt-1">Duka</span>
+            </div>
+            <div onclick="window.location.href='profile.html'" class="flex flex-col items-center text-gray-400 min-w-[55px] cursor-pointer">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                <span class="text-[9px] font-bold mt-1">Profile</span>
+            </div>
+        </nav>
+    </div>
+
+<script type="module">
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+   import { getFirestore, collection, getDocs, query, where, doc, setDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+        authDomain: "sipimall.firebaseapp.com",
+        projectId: "sipimall",
+        storageBucket: "sipimall.firebasestorage.app",
+        messagingSenderId: "949511907728",
+        appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // --- 1. KUPAKIA KATEGORIA ---
+    async function loadCategories() {
+        const catContainer = document.getElementById('categories-list');
+        const querySnapshot = await getDocs(collection(db, "categories"));
+        
+        // Ongeza kitufe cha "Zote" kwanza
+        catContainer.innerHTML = `
+            <div onclick="window.loadProductsByCat('all', this)" class="category-item active flex flex-col items-center flex-shrink-0 cursor-pointer">
+                <div class="category-circle w-16 h-16 rounded-full border border-gray-100 flex items-center justify-center bg-gray-50/50 transition-all">
+                    <svg class="h-7 w-7 text-[#ff4d4d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                </div>
+                <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase">Zote</span>
+            </div>
+        `;
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            catContainer.innerHTML += `
+                <div onclick="window.loadProductsByCat('${data.name.toLowerCase()}', this)" class="category-item flex flex-col items-center flex-shrink-0 cursor-pointer">
+                    <div class="category-circle w-16 h-16 rounded-full border border-gray-100 overflow-hidden bg-white transition-all">
+                        <img src="${data.image}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-[10px] mt-2 font-bold text-gray-500 uppercase">${data.name}</span>
+                </div>
+            `;
+        });
+    }
+    
+
+    // --- 2. KUPAKIA BIDHAA ---
+    window.loadProductsByCat = async (catName, element) => {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = '<p class="text-xs text-gray-400 col-span-2">Inatafuta...</p>';
+
+        // Badilisha muonekano wa kitufe kilichobonyezwa
+        if(element) {
+            document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        let q;
+        if (catName === 'all') {
+            q = collection(db, "products");
+        } else {
+            q = query(collection(db, "products"), where("category", "==", catName));
+        }
+
+        const querySnapshot = await getDocs(q);
+        grid.innerHTML = '';
+
+        querySnapshot.forEach((docSnap) => {
+            const p = docSnap.data();
+            const id = docSnap.id;
+
+            // Inasoma njia yoyote ya picha iliyopo kwenye database
+            const imgUrl = p.imageUrl || p.image || (p.images ? p.images[0] : 'https://via.placeholder.com/300');
+            
+          grid.innerHTML += `
+    <div class="product-card bg-white p-3 rounded-[25px] shadow-sm border border-gray-100 relative active:scale-95 transition-all">
+        <div class="absolute top-3 right-3 z-10">
+            <button class="bg-white/80 backdrop-blur-sm p-1.5 rounded-full shadow-sm">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </button>
+        </div>
+
+        <div onclick="window.location.href='product-detail.html?id=${id}'" class="w-full h-56 rounded-[20px] overflow-hidden mb-3 cursor-pointer relative">
+            <img src="${imgUrl}" class="w-full h-full object-cover">
+            
+            ${p.tag ? `
+                <span class="absolute bottom-2 left-2 bg-[#ff4d4d] text-white text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm">
+                    ${p.tag}
+                </span>
+            ` : ''}
+        </div>
+
+        <div class="px-1">
+            <span class="text-[9px] font-bold text-gray-400 uppercase block tracking-wider">${p.category}</span>
+            <h3 class="text-[13px] font-bold text-gray-800 truncate leading-tight mt-0.5">${p.name}</h3>
+            
+            <div class="flex items-end justify-between mt-2">
+                <div>
+                    ${p.oldPrice ? `<p class="text-[10px] text-gray-400 line-through">TSh ${Number(p.oldPrice).toLocaleString()}</p>` : ''}
+                    <p class="text-[#ff4d4d] font-black text-[15px]">TSh ${Number(p.price).toLocaleString()}</p>
+                </div>
+                
+                <button class="bg-red-50 p-2.5 rounded-2xl text-[#ff4d4d] active:bg-[#ff4d4d] active:text-white transition-colors">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M12 4v16m8-8H4"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+`;
+        });
+    };
+
+    // Anza kupakia kila kitu
+    loadCategories();
+    loadProductsByCat('all');
+</script>
+</body>
+</html>

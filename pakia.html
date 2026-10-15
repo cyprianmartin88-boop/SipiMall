@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakia Bidhaa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 flex justify-center items-center relative">
+
+    <!-- FORM UTAYOJAZA BIDHAA -->
+    <div class="bg-white p-6 rounded-3xl shadow-md w-full max-w-md border border-gray-100 my-6">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 text-center">📦 Pakia Bidhaa Mpya</h2>
+
+        <form id="productForm" class="space-y-5">
+            
+            <!-- 1. PICHA NA PREVIEW (SIZE YA REEL 9:16) 📸 -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-2">Picha ya Bidhaa (Reel Format)</label>
+                
+                <!-- Preview Frame -->
+                <div id="imagePreviewBox" class="w-full aspect-[9/16] max-h-[380px] bg-gray-100 rounded-2xl border-2 border-dashed border-purple-300 flex flex-col items-center justify-center overflow-hidden relative mx-auto mb-3">
+                    <img id="previewImage" class="w-full h-full object-cover hidden" alt="Preview">
+                    <div id="uploadPlaceholder" class="text-center p-4">
+                        <span class="text-3xl block mb-2">📷</span>
+                        <p class="text-xs text-purple-600 font-bold">Bofya hapa kuchagua picha</p>
+                        <p class="text-[10px] text-gray-400 mt-1">Muundo wa Reel (Wima)</p>
+                    </div>
+                </div>
+
+                <input type="file" id="pImageInput" accept="image/*" required class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+            </div>
+
+            <!-- 2. CATEGORY 🏷️ -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Category (Aina ya Bidhaa)</label>
+                <select id="pCategory" required class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+                    <option value="">Chagua Category</option>
+                    <option value="mobile">Mobile (Simu & Vifaa)</option>
+                    <option value="fashion">Fashion (Mavazi & Urembo)</option>
+                    <option value="vehicle">Vehicle (Magari & Vyombo)</option>
+                    <option value="electronics">Electronics (Vifaa vya Umeme)</option>
+                </select>
+            </div>
+
+            <!-- 3. JINA LA BIDHAA 📦 -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Jina la Bidhaa</label>
+                <input type="text" id="pName" placeholder="mf. iPhone 13 Pro Max" required class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+            </div>
+
+            <!-- 4. DESCRIPTION (MAELEZO) 📄 -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Maelezo (Description)</label>
+                <textarea id="pDesc" rows="3" placeholder="Eleza sifa za bidhaa yako..." class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600"></textarea>
+            </div>
+
+            <!-- 5. BEI NA BEI YA ZAMANI 💰 -->
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Bei (TSh)</label>
+                    <input type="number" id="pPrice" placeholder="150000" required class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Bei ya Zamani (Hiari)</label>
+                    <input type="number" id="pOldPrice" placeholder="180000" class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+                </div>
+            </div>
+
+            <!-- 6. HALI YA BIDHAA (MPYA / IMETUMIKA) ⚙️ -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Hali ya Bidhaa</label>
+                <select id="pCondition" required class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+                    <option value="Mpya">Mpya (New)</option>
+                    <option value="Imetumika">Imetumika (Used)</option>
+                </select>
+            </div>
+
+            <!-- 7. USAFIRISHAJI (DELIVERY IPO / DUKANI) 🚚 -->
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">Huduma ya Usafirishaji</label>
+                <select id="pDelivery" required class="w-full p-3 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600">
+                    <option value="Delivery Ipo">Delivery Ipo</option>
+                    <option value="Dukani Tu">Dukani Tu (Mteja Anafuata)</option>
+                </select>
+            </div>
+
+            <!-- 8. KITUFE CHA KUTUMA 🚀 -->
+            <button type="submit" id="submitBtn" class="w-full bg-purple-600 text-white font-bold text-xs py-3.5 rounded-xl shadow-md hover:bg-purple-700 transition-colors mt-4">
+                Weka Sokoni 🚀
+            </button>
+        </form>
+    </div>
+
+    <!-- 🌟 MODAL YA HONGERA (POP-UP NZURI) 🌟 -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl p-6 text-center max-w-sm w-full shadow-2xl border border-gray-100 transform transition-all scale-100">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">
+                🎉
+            </div>
+            <h3 class="text-lg font-black text-gray-800 mb-1">Hongera Sana!</h3>
+            <p class="text-xs text-gray-500 mb-6">Bidhaa yako imehifadhiwa na kuwekwa sokoni kikamilifu.</p>
+            <button id="okBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-3.5 rounded-2xl shadow-lg transition-all active:scale-95">
+                Sawa, Rudi Dukani 🛍️
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT ZA FIREBASE NA COMPRESSION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+            authDomain: "sipimall.firebaseapp.com",
+            projectId: "sipimall",
+            storageBucket: "sipimall.firebasestorage.app",
+            messagingSenderId: "949511907728",
+            appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        let resolvedShopId = null;
+
+        // Anza kufuatilia Login State
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            
+            // 1. Jaribu kupata ID kutoka kwenye URL
+            const urlParams = new URLSearchParams(window.location.search);
+            let urlShopId = urlParams.get('shopId') || urlParams.get('id');
+
+            if (urlShopId && urlShopId !== "undefined" && urlShopId !== "null") {
+                resolvedShopId = urlShopId;
+            } else if (currentUser) {
+                // 2. Kama URL haina ID, itafute database kwa kutumia Email ya Mwenye Duka
+                try {
+                    const q = query(collection(db, "shops"), where("ownerEmail", "==", currentUser.email));
+                    const snap = await getDocs(q);
+                    if (!snap.empty) {
+                        resolvedShopId = snap.docs[0].id;
+                    }
+                } catch (err) {
+                    console.error("Error finding shop ID:", err);
+                }
+            }
+        });
+
+        let base64Image = "";
+
+        // Picha Upload & Reel-Size Preview
+        const imageInput = document.getElementById('pImageInput');
+        const previewImage = document.getElementById('previewImage');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const maxWidth = 720;
+                    const scaleSize = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scaleSize;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // Compress to Base64 JPEG (70% quality)
+                    base64Image = canvas.toDataURL('image/jpeg', 0.7);
+
+                    // Onyesha preview kwenye Reel box
+                    previewImage.src = base64Image;
+                    previewImage.classList.remove('hidden');
+                    uploadPlaceholder.classList.add('hidden');
+                };
+            };
+        });
+
+        // Hifadhi kwenye Firestore
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!resolvedShopId) {
+                alert("Duka halijatambulika! Tafadhali fungua ukurasa huu kutokea kwenye duka yako au ingia kwenye akaunti.");
+                return;
+            }
+
+            if (!base64Image) {
+                alert("Tafadhali subiri picha imalize kuprosesiwa au chagua picha mpya.");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "Inapakia Sokoni...";
+            submitBtn.disabled = true;
+
+            try {
+                // Hifadhi bidhaa ikihusisha shopId NA userId
+                await addDoc(collection(db, "products"), {
+                    shopId: resolvedShopId,
+                    userId: currentUser ? currentUser.uid : null,
+                    category: document.getElementById('pCategory').value,
+                    name: document.getElementById('pName').value,
+                    description: document.getElementById('pDesc').value,
+                    price: Number(document.getElementById('pPrice').value),
+                    oldPrice: Number(document.getElementById('pOldPrice').value) || null,
+                    condition: document.getElementById('pCondition').value,
+                    delivery: document.getElementById('pDelivery').value,
+                    imageUrl: base64Image,
+                    createdAt: serverTimestamp()
+                });
+
+                // Onyesha Modal ya Hongera! 🎉
+                const successModal = document.getElementById('successModal');
+                successModal.classList.remove('hidden');
+                successModal.classList.add('flex');
+
+            } catch (error) {
+                console.error("Kosa:", error);
+                alert("Imeshindikana kupakia bidhaa.");
+                submitBtn.innerText = "Weka Sokoni 🚀";
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Ukibonyeza OK inamrudisha mteja kwenye shop.html na shopId iliyothibitishwa
+        document.getElementById('okBtn').addEventListener('click', () => {
+            if (resolvedShopId) {
+                window.location.href = `shop.html?shopId=${resolvedShopId}`;
+            } else {
+                window.location.href = `shop-list.html`;
+            }
+        });
+    </script>
+</body>
+</html>

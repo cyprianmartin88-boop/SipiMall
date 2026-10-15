@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat List - SipiMall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="max-w-md mx-auto min-h-screen pb-10">
+
+    <div class="sticky top-0 bg-white/80 backdrop-blur-md z-50 px-6 py-5 flex items-center justify-between border-b border-gray-100">
+        <div class="flex items-center gap-4">
+            <button onclick="window.location.href='profile.html'" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <svg class="h-6 w-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <h1 class="text-xl font-black text-gray-800">Messages</h1>
+        </div>
+        <button class="bg-[#ff4d4d]/10 p-2.5 rounded-2xl text-[#ff4d4d]">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M12 4v16m8-8H4"/></svg>
+        </button>
+    </div>
+
+    <div class="px-6 mt-4">
+        <div class="relative flex items-center">
+            <input type="text" placeholder="Tafuta mazungumzo..." class="w-full bg-white border border-gray-100 py-3.5 px-12 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#ff4d4d]/10 transition-all shadow-sm">
+            <svg class="h-5 w-5 text-gray-400 absolute left-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+    </div>
+
+   <div id="chat-list-container" class="px-4 mt-6 space-y-1">
+    </div>
+    
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, query, where, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Tumia Config yako ile ile ya awali
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+        authDomain: "sipimall.firebaseapp.com",
+        projectId: "sipimall",
+        storageBucket: "sipimall.firebasestorage.app",
+        messagingSenderId: "949511907728",
+        appId: "1:949511907728:web:92c4cb40abafef4863eb15",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const chatListContainer = document.getElementById('chat-list-container');
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loadMyChats(user.uid);
+        } else {
+            chatListContainer.innerHTML = `<p class="text-center py-10 opacity-40 text-sm">Tafadhali ingia kuona jumbe zako.</p>`;
+        }
+    });
+
+  function loadMyChats(myId) {
+        // Tunatumia query rahisi kwanza ili kuepuka Index Error ya Firebase
+        const q = query(
+            collection(db, "conversations"),
+            where("participants", "array-contains", myId)
+        );
+
+        onSnapshot(q, (snapshot) => {
+            chatListContainer.innerHTML = "";
+            
+            if (snapshot.empty) {
+                chatListContainer.innerHTML = `<p class="text-center py-10 opacity-40 text-sm font-bold">Huna ujumbe wowote kwa sasa.</p>`;
+                return;
+            }
+
+            // Panga matokeo kwa muda hapa hapa kwenye JavaScript (Badala ya Firebase Index)
+            const sortedDocs = snapshot.docs.sort((a, b) => {
+                const timeA = a.data().timestamp?.seconds || 0;
+                const timeB = b.data().timestamp?.seconds || 0;
+                return timeB - timeA;
+            });
+
+            sortedDocs.forEach((docSnap) => {
+                const chat = docSnap.data();
+                const chatId = docSnap.id;
+                const isUnread = chat.unreadCount > 0 && chat.lastSenderId !== myId;
+                
+                const otherParticipantId = chat.participants.find(id => id !== myId);
+                const otherUserInfo = chat.usersData?.[otherParticipantId] || {};
+                const productInfo = chat.productInfo || {}; // Taarifa za bidhaa
+                
+                const time = chat.timestamp ? new Date(chat.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Sasa hivi";
+
+                // MUHIMU: Ikiwa muuzaji akibonyeza, inampeleka kwenye chumba cha chati
+                // Hakikisha jina la file ni chat-room.html au product-details.html kulingana na unavyotaka
+                const chatHtml = `
+                    <div onclick="window.location.href='chat-room.html?chatId=${chatId}'" 
+                         class="flex items-center gap-4 p-4 bg-white rounded-[28px] border border-transparent active:bg-gray-50 active:scale-[0.98] transition-all cursor-pointer shadow-sm mb-2">
+                        <div class="relative">
+                            <img src="${productInfo.image || 'https://ui-avatars.com/api/?name=Sipi'}" 
+                                 class="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md">
+                            <img src="${otherUserInfo.photo || 'https://ui-avatars.com/api/?name=' + (otherUserInfo.name || 'U')}" 
+                                 class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full border-2 border-white object-cover">
+                        </div>
+                       <div class="flex-1 min-w-0">
+    <div class="flex justify-between items-center mb-0.5">
+        <h3 class="font-black text-gray-800 text-[13px] truncate">${otherUserInfo.name || 'Mtumiaji'}</h3>
+        <span class="text-[10px] ${isUnread ? 'text-[#ff4d4d]' : 'text-gray-400'} font-bold">${time}</span>
+    </div>
+    
+    <p class="text-[#ff4d4d] text-[10px] font-bold uppercase truncate mb-1">${productInfo.name || 'Bidhaa'}</p>
+    
+    <div class="flex justify-between items-center">
+        <p class="${isUnread ? 'text-gray-900 font-black' : 'text-gray-500 font-medium'} text-[12px] truncate flex-1">
+            ${chat.lastMessage || '...'}
+        </p>
+
+        ${isUnread ? `
+            <span class="bg-[#ff4d4d] text-white text-[10px] h-5 w-5 flex items-center justify-center rounded-full ml-2 shadow-sm font-bold">
+                ${chat.unreadCount}
+            </span>
+        ` : ''}
+    </div>
+</div>
+                    </div>
+                `;
+                chatListContainer.innerHTML += chatHtml;
+            });
+        });
+    }
+</script>
+</body>
+</html>

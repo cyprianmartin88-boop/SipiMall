@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maduka Maarufu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="max-w-md mx-auto p-4 min-h-screen">
+
+    <!-- 1. NAVBAR -->
+    <nav class="flex items-center justify-between py-3 mb-3">
+        <div class="flex items-center gap-2.5">
+            <button class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-black text-white font-extrabold text-xs rounded-xl flex items-center justify-center">
+                    SM
+                </div>
+                <div>
+                    <h1 class="text-sm font-black tracking-tight text-gray-900 leading-none">MADUKA</h1>
+                    <p class="text-[10px] font-bold text-gray-400 tracking-wider mt-0.5" id="totalShopsSub">0 MADUKA</p>
+                </div>
+            </div>
+        </div>
+        <a href="sajiliduka.html" class="flex items-center gap-1.5 bg-black text-white px-3.5 py-2 rounded-full text-xs font-bold shadow-sm active:scale-95 transition-transform inline-flex">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <span>Weka Duka</span>
+        </a>
+    </nav>
+
+    <!-- 2. SEARCH BAR -->
+    <div class="relative mb-5">
+        <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </div>
+        <input type="text" placeholder="Tafuta duka, bidhaa, mtaa..." 
+               class="w-full bg-gray-100/80 text-xs font-medium text-gray-800 pl-11 pr-4 py-3.5 rounded-full outline-none focus:ring-2 focus:ring-black/5 placeholder-gray-400">
+    </div>
+
+    <!-- 3. HERO BANNER CARD -->
+    <div class="bg-gradient-to-br from-purple-50/40 via-white to-orange-50/30 rounded-[32px] p-5 border border-purple-50 shadow-sm mb-6">
+        
+        <div class="inline-flex items-center justify-between w-full mb-4">
+            <div class="inline-flex items-center gap-1.5 bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded-full">
+                <span>✨</span> SOKO LA KIDIJITALI
+            </div>
+            <!-- Indicator ya Walioko Online -->
+            <div class="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-extrabold px-3 py-1.5 rounded-full">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="statOnlineVisitors">0</span> ONLINE
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-black text-gray-900 leading-tight mb-3">
+            Gundua Maduka <span class="text-purple-600" id="heroShopCount">0+</span><br>
+        </h2>
+        <p class="text-xs text-gray-500 font-medium leading-relaxed mb-5">
+            Tafuta duka la karibu, linganisha bei, na nunua moja kwa moja kutoka kwa wafanyabiashara halisi.
+        </p>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-3 gap-2.5 mb-5">
+            <div class="bg-white p-3.5 rounded-2xl border border-gray-100 text-center shadow-sm">
+                <p class="text-lg font-black text-gray-900" id="statShops">0</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">MADUKA</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-gray-100 text-center shadow-sm">
+                <p class="text-lg font-black text-gray-900" id="statProducts">0</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">BIDHAA</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-gray-100 text-center shadow-sm">
+                <p class="text-lg font-black text-gray-900" id="statMonthlyVisitors">0</p>
+                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">WATEJA (MWEZI)</p>
+            </div>
+        </div>
+    </div>
+    <!-- SEHEMU YA KATEGORIA -->
+<div class="mb-8">
+    <div class="flex items-center justify-between mb-3">
+        <div>
+            <h2 class="text-xl font-extrabold text-gray-900">Chagua Kategoria</h2>
+            <p class="text-xs text-gray-500 font-medium">Gusa kuchuja maduka papo hapo</p>
+        </div>
+        <button id="resetFilterBtn" onclick="resetFilter()" class="hidden items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-3.5 py-2 rounded-full transition-colors">
+            <span>🔄</span> Onyesha Zote
+        </button>
+    </div>
+
+    <!-- Container la Kadi za Kategoria -->
+    <div id="categoriesContainer" class="grid grid-cols-2 gap-3.5">
+        <p class="col-span-2 text-center text-gray-400 text-xs py-4">Inapakia kategoria...</p>
+    </div>
+</div>
+
+    <!-- Header Section -->
+    <div class="flex items-center gap-2 mb-4">
+        <h1 class="text-2xl font-extrabold text-gray-900">Maduka Maarufu</h1>
+        <span class="bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1 rounded-full border border-gray-200" id="resultsBadge">
+            0 matokeo
+        </span>
+    </div>
+
+    <!-- Container la Maduka -->
+    <div id="shopsContainer" class="space-y-6">
+        <p class="text-center text-gray-400 text-xs py-8">Inapakia maduka...</p>
+    </div>
+
+    <!-- FIREBASE INTEGRATION SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, serverTimestamp, getDocs, where, onSnapshot, query, orderBy, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQvOgelGwlcKGaQe7XtaMeiWWZuqtyR40",
+            authDomain: "sipimall.firebaseapp.com",
+            projectId: "sipimall",
+            storageBucket: "sipimall.firebasestorage.app",
+            messagingSenderId: "949511907728",
+            appId: "1:949511907728:web:92c4cb40abafef4863eb15"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+    function loadShops() {
+    const shopsRef = collection(db, "shops");
+    const q = query(shopsRef, orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+        const container = document.getElementById('shopsContainer');
+        allShopsData = []; // Safisha mwanzo
+
+        if (snapshot.empty) {
+            container.innerHTML = `
+                <div class="bg-white p-8 text-center rounded-3xl border border-gray-100">
+                    <p class="text-gray-500 text-sm font-semibold">Hakuna maduka yaliyosajiliwa bado.</p>
+                </div>`;
+            updateShopCounts(0);
+            loadCategoriesWithCounts();
+            return;
+        }
+
+       // 🛠️ MAREKEBISHO: Tunahifadhi ID ya document pamoja na data za duka
+        snapshot.forEach((doc) => {
+            allShopsData.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        // Weka maduka kwenye muonekano
+        resetFilter();
+
+        // Pakua Kategoria na zionyeshe idadi sahihi
+        loadCategoriesWithCounts();
+    }, (error) => {
+        console.error("Kosa la kupakua maduka:", error);
+    });
+}
+
+        function updateShopCounts(count) {
+            document.getElementById('heroShopCount').innerText = `${count}+`;
+            document.getElementById('statShops').innerText = count;
+            document.getElementById('totalShopsSub').innerText = `${count} MADUKA`;
+            document.getElementById('resultsBadge').innerText = `${count} matokeo`;
+        }
+
+        // 2. Kurekodi Mgeni (Tracking)
+        async function trackVisitor() {
+            try {
+                let visitorId = localStorage.getItem('visitor_id');
+                if (!visitorId) {
+                    visitorId = 'visitor_' + Math.random().toString(36).substring(2, 9);
+                    localStorage.setItem('visitor_id', visitorId);
+                }
+
+                const visitorRef = doc(db, "visitors", visitorId);
+                await setDoc(visitorRef, {
+                    lastActive: serverTimestamp()
+                }, { merge: true });
+            } catch (err) {
+                console.error("Kosa la kurekodi mgeni:", err);
+            }
+        }
+
+        // 3. Kuhesabu Walioko Online na Waliotembelea Mwezi Huu
+        async function getVisitorStats() {
+            try {
+                const now = new Date();
+                
+                // Walioko Online (Dakika 5 zilizopita)
+                const fiveMinsAgo = new Date(now.getTime() - 5 * 60 * 1000);
+                const onlineQuery = query(collection(db, "visitors"), where("lastActive", ">=", fiveMinsAgo));
+                const onlineSnap = await getDocs(onlineQuery);
+                
+                // Waliotembelea Mwezi Huu (Siku 30 zilizopita)
+                const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                const monthlyQuery = query(collection(db, "visitors"), where("lastActive", ">=", thirtyDaysAgo));
+                const monthlySnap = await getDocs(monthlyQuery);
+
+                document.getElementById('statOnlineVisitors').innerText = onlineSnap.size;
+                document.getElementById('statMonthlyVisitors').innerText = monthlySnap.size;
+            } catch (error) {
+                console.error("Kosa la kupata takwimu za wageni:", error);
+            }
+        }
+
+        async function loadStatistics() {
+            try {
+                const productsColl = collection(db, "products");
+                const productSnapshot = await getCountFromServer(productsColl);
+                document.getElementById('statProducts').innerText = productSnapshot.data().count;
+            } catch (error) {
+                console.error("Kosa la kuhesabu bidhaa:", error);
+            }
+        }
+        // Orodha ya Kategoria zote zikilingana na values za fomu ya kusajili duka
+const categoriesData = [
+    {
+        id: "mobile",
+        title: "Simu & Vifaa",
+        subtitle: "Mobile • Gundua sasa ↗",
+        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&q=80",
+        gradient: "from-cyan-500 to-blue-600"
+    },
+    {
+        id: "fashion",
+        title: "Mitindo",
+        subtitle: "Fashion • Gundua sasa ↗",
+        image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&q=80",
+        gradient: "from-pink-500 to-rose-600"
+    },
+    {
+        id: "electronics",
+        title: "Umeme",
+        subtitle: "Electronics • Gundua sasa ↗",
+        image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=300&q=80",
+        gradient: "from-indigo-500 to-purple-600"
+    },
+    {
+        id: "vehicle",
+        title: "Magari & Pikipiki",
+        subtitle: "Vehicle • Gundua sasa ↗",
+        image: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=300&q=80",
+        gradient: "from-amber-500 to-orange-600"
+    }
+];
+
+let allShopsData = []; // Kuhifadhi maduka yote kwa ajili ya filter
+
+// Function ya Kupakua Kategoria na Kuhesabu Maduka Halisi kutoka Firebase
+async function loadCategoriesWithCounts() {
+    try {
+        const categoriesContainer = document.getElementById('categoriesContainer');
+
+        // Kuhesabu idadi ya maduka kwa kila category kutoka kwenye `allShopsData`
+        const shopCounts = {};
+        allShopsData.forEach(shop => {
+            if (shop.category) {
+                shopCounts[shop.category] = (shopCounts[shop.category] || 0) + 1;
+            }
+        });
+
+        categoriesContainer.innerHTML = ''; // Safisha 'Inapakia...'
+
+        categoriesData.forEach(cat => {
+            const count = shopCounts[cat.id] || 0; // Idadi halisi kutoka database
+
+            const card = document.createElement('div');
+            card.className = `bg-gradient-to-br ${cat.gradient} text-white rounded-[28px] p-4 flex flex-col justify-between shadow-md relative overflow-hidden h-36 cursor-pointer active:scale-95 transition-all`;
+            
+            card.innerHTML = `
+                <!-- Idadi ya Maduka & Picha Ndogo -->
+                <div class="flex justify-between items-start z-10">
+                    <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center p-1 border border-white/30 shadow-sm">
+                        <img src="${cat.image}" alt="${cat.title}" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                    <span class="bg-white/95 text-gray-900 text-[10px] font-extrabold px-3 py-1 rounded-full shadow-sm">
+                        ${count} maduka
+                    </span>
+                </div>
+
+                <!-- Jina la Kategoria -->
+                <div class="z-10 mt-auto">
+                    <h3 class="text-base font-extrabold leading-tight">${cat.title}</h3>
+                    <p class="text-[10px] font-medium text-white/80 mt-0.5">${cat.subtitle}</p>
+                </div>
+
+                <!-- Picha ya Nyuma (Background effect) -->
+                <img src="${cat.image}" class="absolute -right-3 -bottom-3 w-24 h-24 object-cover opacity-20 rounded-full blur-[1px] pointer-events-none" />
+            `;
+
+            // Ongeza shughuli ya kuchuja maduka ukibonyeza kadi
+            card.onclick = () => filterShopsByCategory(cat.id, cat.title);
+
+            categoriesContainer.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Kosa la kupakua kategoria:", error);
+    }
+}
+
+// Function ya kuchuja maduka kulingana na kategoria uliyobonyeza
+window.filterShopsByCategory = function(categoryId, categoryTitle) {
+    const container = document.getElementById('shopsContainer');
+    const filteredShops = allShopsData.filter(shop => shop.category === categoryId);
+
+    document.getElementById('resetFilterBtn').classList.remove('hidden');
+    document.getElementById('resetFilterBtn').classList.add('inline-flex');
+
+    if (filteredShops.length === 0) {
+        container.innerHTML = `
+            <div class="bg-white p-8 text-center rounded-3xl border border-gray-100">
+                <p class="text-gray-500 text-sm font-semibold">Hakuna maduka kwenye kategoria ya "${categoryTitle}".</p>
+                <button onclick="resetFilter()" class="mt-3 text-xs text-blue-600 font-bold underline">Onyesha maduka yote</button>
+            </div>`;
+        updateShopCounts(0);
+        return;
+    }
+
+    container.innerHTML = '';
+    updateShopCounts(filteredShops.length);
+    filteredShops.forEach(shop => {
+        container.appendChild(createShopCard(shop));
+    });
+};
+
+// Function ya kurudisha maduka yote
+window.resetFilter = function() {
+    document.getElementById('resetFilterBtn').classList.add('hidden');
+    document.getElementById('resetFilterBtn').classList.remove('inline-flex');
+    
+    const container = document.getElementById('shopsContainer');
+    container.innerHTML = '';
+    updateShopCounts(allShopsData.length);
+    allShopsData.forEach(shop => {
+        container.appendChild(createShopCard(shop));
+    });
+};
+
+        // Mfumo wa kuanzisha ukurasa
+        async function init() {
+            // 1. Pakua maduka kwanza haraka
+            loadShops();
+
+            // 2. Rekodi na pakua takwimu kwa mpangilio sahihi
+            await trackVisitor();
+            await getVisitorStats();
+            loadStatistics();
+
+            // 3. Sasisha hali ya Online kila baada ya sekunde 30 (Real-time update)
+            setInterval(async () => {
+                await trackVisitor();
+                await getVisitorStats();
+            }, 30000);
+        }
+
+        init();
+function createShopCard(shop, shopId) {
+    const div = document.createElement('div');
+    div.className = "bg-white rounded-[32px] overflow-hidden shadow-sm border border-gray-100 relative";
+    const firstLetter = shop.shopName ? shop.shopName.charAt(0).toUpperCase() : 'S';
+
+    div.innerHTML = `
+        <div class="h-28 bg-gradient-to-r from-blue-500 to-cyan-400 p-4 flex justify-between items-start">
+            <span class="bg-white/90 backdrop-blur-md text-blue-600 text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                🏷️ ${shop.category || 'Jumla'}
+            </span>
+            <span class="bg-white/90 backdrop-blur-md text-emerald-600 text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Imefunguliwa
+            </span>
+        </div>
+
+        <div class="px-5 pb-5 relative">
+            <div class="-mt-10 mb-3 flex items-end justify-between">
+                <div class="w-20 h-20 bg-white rounded-2xl shadow-md p-1 border-2 border-white flex items-center justify-center">
+                    <div class="w-full h-full bg-gray-50 rounded-xl flex items-center justify-center text-gray-800 text-2xl font-black">
+                        ${firstLetter}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-extrabold text-gray-900 flex items-center gap-1.5">
+                    ${shop.shopName || 'Duka Bila Jina'}
+                    <svg class="w-4 h-4 text-blue-500 fill-current" viewBox="0 0 20 20"><path d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                </h3>
+                <p class="text-xs text-gray-500 font-medium mt-0.5 flex items-center gap-1">
+                    📍 ${shop.location || 'Eneo halijaainishwa'}
+                </p>
+            </div>
+
+            <div class="flex items-center gap-2 mt-4">
+                <span class="bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1">
+                    ★ 5.0
+                </span>
+                <span class="bg-gray-50 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full border border-gray-100">
+                    🕒 ${shop.openTime || '08:00'} - ${shop.closeTime || '20:00'}
+                </span>
+            </div>
+
+            <div class="flex items-center gap-3 mt-5">
+                <!-- Badiliko hapa: Tumetumia <a> tag badala ya <button> na kuweka href iliyo na ID ya duka -->
+                <a href="shop.html?id=${shop.id}" class="flex-1 bg-[#18181b] text-white py-3.5 px-5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform text-center">
+    Tembelea Duka
+    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+</a>
+            </div>
+        </div>
+    `;
+    return div;
+}
+    </script>
+</body>
+</html>
